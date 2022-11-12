@@ -4,10 +4,16 @@
 
 A simple web app for viewing images from your Kuna cameras. Images update automatically, based on an interval you configure, and whenever Kuna decides to update on their end. Note that this web app can't log you into Kuna -- you'll have to do that, then share the cookies with the app. Instructions below.
 
-## Requirements
+## Server Requirements
 
-+ php
+Tested with nginx and apache2, with the following installed:
+
++ php 7+
 + php-curl
+
+## Client Requirements
+
+Pretty much any browser in the past 10 years. Tested on Chrome and Firefox. Also tested on webOS and Android browsers.
 
 ## Setup
 
