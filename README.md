@@ -1,5 +1,9 @@
 # kunacam-php
 
+![App Icon](icon.png)
+
+A simple web app for viewing images from your Kuna cameras. Images update automatically, based on an interval you configure, and whenever Kuna decides to update on their end. Note that this web app can't log you into Kuna -- you'll have to do that, then share the cookies with the app. Instructions below.
+
 ## Requirements
 
 + php
