@@ -7,6 +7,8 @@ $data_url = $base_url . "data.php";
 $image_url = $base_url . "image.php?id=";
 
 $file_handle = fopen($data_url, "r");
+if (!isset($file_handle))
+        die("could not load data from " . $data_url);
 $data = "";
 while(!feof($file_handle)) {
     $data .= fgets($file_handle);
