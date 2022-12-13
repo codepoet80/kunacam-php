@@ -1,7 +1,9 @@
 <?php
 include("config.php");
-$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";  
-$base_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];  
+$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$base_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$base_url = explode("index.php", $base_url)[0];
+$base_url = explode("?", $base_url)[0];
 $base_url = rtrim($base_url, '/') . '/';
 $data_url = $base_url . "data.php";
 $image_url = $base_url . "image.php?id=";
@@ -22,7 +24,7 @@ if ($data != "")
     if (isset($data_obj->detail)) {
         echo("Server error: " . $data_obj->detail);
         echo("<br>");
-        echo("<a href='set-config.php'>Update Cookies</a>");
+        echo("<a href='set-config.php'>Update Auth Cookies</a>");
     }
 else {
 ?>
@@ -64,7 +66,7 @@ else {
                     <img class="camera" id="cam-<?php echo $camera->serial_number ?>" onload="imgReady('<?php echo $camera->serial_number ?>');" title="<?php echo $this_img; ?>" src="<?php echo $this_img; ?>">
                     <img class="spinner" id="spinner-<?php echo $camera->serial_number ?>" src="spinner.gif">
                 </p>
-                
+
             </div>
         <?php
         }
