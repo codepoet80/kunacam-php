@@ -1,5 +1,7 @@
 <?php
 include("config.php");
+$url = "https://server.kunasystems.com/api/v1/user/cameras/";
+
 $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $base_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $base_url = explode("index.php", $base_url)[0];
@@ -8,25 +10,29 @@ $base_url = rtrim($base_url, '/') . '/';
 $data_url = $base_url . "data.php";
 $image_url = $base_url . "image.php?id=";
 
-$file_handle = fopen($data_url, "r");
-if (!isset($file_handle))
-        die("could not load data from " . $data_url);
-$data = "";
-while(!feof($file_handle)) {
-    $data .= fgets($file_handle);
+function get_data($url, $config){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_VERBOSE, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cookie: csrftoken=" . $config['csfrtoken'] . "; sessionid=" . $config['sessionid']));
+  
+    $output = curl_exec($ch);
+    curl_close($ch);
+    return $output;
 }
-fclose($file_handle);
-if ($data != "")
-    $data_obj = json_decode($data);
-    if (!isset($data_obj)) {
-        die("Could not parse JSON: " . json_last_error_msg());
-    }
-    if (isset($data_obj->detail)) {
-        echo("Server error: " . $data_obj->detail);
-        echo("<br>");
-        echo("<a href='set-config.php'>Update Auth Cookies</a>");
-    }
-else {
+$data = get_data($url, $config);
+if (!isset($data))
+    die("Could not get data from service!");
+$data_obj = json_decode($data);
+if (!isset($data_obj))
+    die("Could not parse JSON: " . json_last_error_msg());
+if (isset($data_obj->detail)) {
+    echo("Server error: " . $data_obj->detail);
+    echo("<br>");
+    echo("<a href='set-config.php'>Update Auth Cookies</a>");
+} else {
 ?>
 <html>
     <head>
