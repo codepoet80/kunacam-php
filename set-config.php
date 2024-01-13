@@ -38,6 +38,6 @@ if ($changed) {
         <br/>
         <input type="submit" value="Save Changes">
         </form>
-        <p><a href="./">home</a></p>
+        <p><a href="./?<?php echo uniqid();?>">Home</a></p>
     </body>
 </html>
